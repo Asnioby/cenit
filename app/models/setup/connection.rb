@@ -71,7 +71,7 @@ module Setup
         instance_variable_set(var, templates)
       end
       hash = {}
-      send(field).each { |p| hash[p.key] = templates[p.key].render(options.merge(template_parameters_hash)) }
+      send(field).each { |p| hash[p.key] = templates[p.key].render(template_parameters_hash.merge(options)) }
       hash
     end
 
