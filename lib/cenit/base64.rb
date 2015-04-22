@@ -1,9 +1,8 @@
-
 module Cenit
-    class Base64 < Eval
+  class Base64 < Eval
 
-      def render(context)
-        ::Base64.encode64(super).gsub("\n", '')
-      end
+    def render(context)
+      ::Base64.encode64(super).gsub("\n", '')
     end
+  end
 end

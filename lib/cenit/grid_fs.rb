@@ -83,12 +83,12 @@ module Cenit
             Mongoid::GridFs.reading(readable) do |io|
               unless attributes.has_key?(:filename)
                 attributes[:filename] =
-                  [file.id.to_s, Mongoid::GridFs.extract_basename(io)].join('/').squeeze('/')
+                    [file.id.to_s, Mongoid::GridFs.extract_basename(io)].join('/').squeeze('/')
               end
 
               unless attributes.has_key?(:contentType)
                 attributes[:contentType] =
-                  Mongoid::GridFs.extract_content_type(attributes[:filename]) || file.contentType
+                    Mongoid::GridFs.extract_content_type(attributes[:filename]) || file.contentType
               end
 
               Cenit::GridFs.chunking(io, chunkSize) do |buf|
@@ -137,10 +137,10 @@ module Cenit
 
           def where(conditions = {})
             case conditions
-            when String
-              file_model.where(:filename => conditions)
-            else
-              file_model.where(conditions)
+              when String
+                file_model.where(:filename => conditions)
+              else
+                file_model.where(conditions)
             end
           end
 
@@ -150,10 +150,10 @@ module Cenit
 
           def [](filename)
             file_model.
-              where(:filename => filename.to_s).
-              order_by(:uploadDate => :desc).
-              limit(1).
-              first
+                where(:filename => filename.to_s).
+                order_by(:uploadDate => :desc).
+                limit(1).
+                first
           end
 
           def []=(filename, readable)
@@ -289,7 +289,7 @@ module Cenit
 
             while fetched < chunks.size
               chunks.where(:n.lt => fetched+limit, :n.gte => fetched).
-                order_by([:n, :asc]).each do |chunk|
+                  order_by([:n, :asc]).each do |chunk|
                 block.call(chunk.to_s)
               end
 
@@ -299,19 +299,19 @@ module Cenit
 
           def slice(*args)
             case args.first
-            when Range
-              range = args.first
-              first_chunk = (range.min / chunkSize).floor
-              last_chunk = (range.max / chunkSize).floor
-              offset = range.min % chunkSize
-              length = range.max - range.min + 1
-            when Fixnum
-              start = args.first
-              start = self.length + start if start < 0
-              length = args.size == 2 ? args.last : 1
-              first_chunk = (start / chunkSize).floor
-              last_chunk = ((start + length) / chunkSize).floor
-              offset = start % chunkSize
+              when Range
+                range = args.first
+                first_chunk = (range.min / chunkSize).floor
+                last_chunk = (range.max / chunkSize).floor
+                offset = range.min % chunkSize
+                length = range.max - range.min + 1
+              when Fixnum
+                start = args.first
+                start = self.length + start if start < 0
+                length = args.size == 2 ? args.last : 1
+                first_chunk = (start / chunkSize).floor
+                last_chunk = ((start + length) / chunkSize).floor
+                offset = start % chunkSize
             end
 
             data = ''
@@ -374,7 +374,7 @@ module Cenit
           end
 
           after_save do
-              parent.update_for(self)
+            parent.update_for(self)
           end
         end
       end
@@ -429,7 +429,7 @@ module Cenit
             i += 1
           end
         else
-          while((buf = io.read(chunk_size)) && buf.size > 0)
+          while ((buf = io.read(chunk_size)) && buf.size > 0)
             block.call(buf)
           end
         end

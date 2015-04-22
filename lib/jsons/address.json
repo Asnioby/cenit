@@ -1,8 +1,8 @@
 {
     "title": "Address",
-    
+
     "type": "object",
-    
+
     "properties": {
         "firstname": {
             "type": "string"

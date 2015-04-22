@@ -55,20 +55,20 @@
                 });
             }, 200);
         });
-        
+
         var imput_data = '';
-        if ($('#setup_flow_transformation')){
-          input_data = $('#setup_flow_transformation').val();
-          input_data = escape(input_data);
-          input_data = input_data.replace("+", "%2B");
-          input_data = input_data.replace("/", "%2F");
+        if ($('#setup_flow_transformation')) {
+            input_data = $('#setup_flow_transformation').val();
+            input_data = escape(input_data);
+            input_data = input_data.replace("+", "%2B");
+            input_data = input_data.replace("/", "%2F");
         }
 
         var data = ''
         data += $('#setup_flow_transformation') ? 'transformation=' + input_data + '&' : '';
-        data += $('#setup_flow_data_type_id') ? 'data_type_id=' + $('#setup_flow_data_type_id').val() + '&'  : '';
+        data += $('#setup_flow_data_type_id') ? 'data_type_id=' + $('#setup_flow_data_type_id').val() + '&' : '';
         data += $('#setup_flow_style') ? 'style=' + $('#setup_flow_style').val() : '';
-        
+
         setTimeout(function () {
 
             $.ajax({

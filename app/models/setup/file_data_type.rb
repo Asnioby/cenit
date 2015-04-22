@@ -4,46 +4,46 @@ module Setup
   class FileDataType < Model
 
     SCHEMA =
-      {
-        type: :object,
-        properties:
-          {
-            filename: {
-              title: 'File name',
-              type: :string
-            },
-            contentType: {
-              title: 'Content type',
-              type: :string
-            },
-            length: {
-              title: 'Size',
-              type: :integer
-            },
-            uploadDate: {
-              title: 'Uploaded at',
-              type: :string,
-              format: :time
-            },
-            file: {
-              type: :object,
-              properties: {
-                chunks: {
-                  type: :array,
-                  items: {
-                    type: :object,
-                    properties: {},
-                  },
-                  referenced: true,
-                  visible: false
+        {
+            type: :object,
+            properties:
+                {
+                    filename: {
+                        title: 'File name',
+                        type: :string
+                    },
+                    contentType: {
+                        title: 'Content type',
+                        type: :string
+                    },
+                    length: {
+                        title: 'Size',
+                        type: :integer
+                    },
+                    uploadDate: {
+                        title: 'Uploaded at',
+                        type: :string,
+                        format: :time
+                    },
+                    file: {
+                        type: :object,
+                        properties: {
+                            chunks: {
+                                type: :array,
+                                items: {
+                                    type: :object,
+                                    properties: {},
+                                },
+                                referenced: true,
+                                visible: false
+                            }
+                        },
+                        referenced: true,
+                        visible: false,
+                        virtual: true
+                    }
                 }
-              },
-              referenced: true,
-              visible: false,
-              virtual: true
-            }
-          }
-      }.to_json.freeze
+        }.to_json.freeze
 
     BuildInDataType.regist(self).referenced_by(:name, :library).with(:title, :name, :_type, :validator)
 
@@ -84,15 +84,15 @@ module Setup
       raise Exception("Model '#{on_library_title}' is not loaded") unless model = self.model
       temporary_file = nil
       readable =
-        if string_or_readable.is_a?(String)
-          temporary_file = Tempfile.new('tmp')
-          temporary_file.write(string_or_readable)
-          temporary_file.rewind
-          attributes = default_attributes.merge(attributes)
-          Cenit::Utility::Proxy.new(temporary_file, original_filename: attributes[:filename])
-        else
-          string_or_readable
-        end
+          if string_or_readable.is_a?(String)
+            temporary_file = Tempfile.new('tmp')
+            temporary_file.write(string_or_readable)
+            temporary_file.rewind
+            attributes = default_attributes.merge(attributes)
+            Cenit::Utility::Proxy.new(temporary_file, original_filename: attributes[:filename])
+          else
+            string_or_readable
+          end
       validate_file!(readable)
       attributes = attributes.merge(filename: readable.original_filename) unless attributes[:filename]
       file = model.file_model.namespace.put(readable, attributes)
@@ -123,20 +123,20 @@ module Setup
     def default_attributes
       if validator
         {
-          filename: "file_#{DateTime.now.strftime('%Y-%m-%d_%Hh%Mm%S')}" +
-            case validator.schema_type
-            when :json_schema
-              '.json'
-            when :xml_schema
-              '.xml'
-            end,
-          contentType:
-            case validator.schema_type
-            when :json_schema
-              'application/json'
-            when :xml_schema
-              'application/xml'
-            end
+            filename: "file_#{DateTime.now.strftime('%Y-%m-%d_%Hh%Mm%S')}" +
+                case validator.schema_type
+                  when :json_schema
+                    '.json'
+                  when :xml_schema
+                    '.xml'
+                end,
+            contentType:
+                case validator.schema_type
+                  when :json_schema
+                    'application/json'
+                  when :xml_schema
+                    'application/xml'
+                end
         }
       else
         {}
@@ -150,9 +150,9 @@ module Setup
       [file_model, file_model.chunk_model].each { |m| m.include(Setup::ClassAffectRelation) }
       file_model.affects_to(model)
       {
-        model => ['', title],
-        file_model => %w(/properties/file File),
-        file_model.chunk_model => %w(/properties/file/properties/chunks/items Chunk)
+          model => ['', title],
+          file_model => %w(/properties/file File),
+          file_model.chunk_model => %w(/properties/file/properties/chunks/items Chunk)
       }.each do |model, values|
         model.class_eval("def self.data_type
             Setup::FileDataType.where(id: '#{self.id}').first

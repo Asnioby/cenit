@@ -1,25 +1,25 @@
 module NumberGenerator
   extend ActiveSupport::Concern
 
-  NUMBER_LENGTH  = 9
+  NUMBER_LENGTH = 9
   NUMBER_LETTERS = false
-  NUMBER_PREFIX  = 'N'
+  NUMBER_PREFIX = 'N'
 
   included do
     field :number, type: String
     validates :number, uniqueness: true
-    validates_presence_of :number 
+    validates_presence_of :number
     after_initialize :generate_number #, on: :create
   end
-  
+
   def self.by_number(number)
     where(number: number)
   end
 
   def generate_number(options = {})
-    options[:length]  ||= NUMBER_LENGTH
+    options[:length] ||= NUMBER_LENGTH
     options[:letters] ||= NUMBER_LETTERS
-    options[:prefix]  ||= NUMBER_PREFIX
+    options[:prefix] ||= NUMBER_PREFIX
 
     possible = (0..9).to_a
     possible += ('A'..'Z').to_a if options[:letters]

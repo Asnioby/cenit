@@ -3,8 +3,8 @@ module MakeSlug
 
   included do
     field :slug, type: String
-    validates :slug, uniqueness: { scope: :account_id }
-    validates_presence_of :slug 
+    validates :slug, uniqueness: {scope: :account_id}
+    validates_presence_of :slug
     before_validation :make_slug, on: :create
   end
 

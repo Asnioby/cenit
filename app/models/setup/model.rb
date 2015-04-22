@@ -112,12 +112,12 @@ module Setup
       report = {loaded: Set.new, errors: {}}
       begin
         model =
-          if (do_shutdown = options[:reload]) || !loaded?
-            merge_report(shutdown(options), report) if do_shutdown
-            do_load_model(report)
-          else
-            self.model
-          end
+            if (do_shutdown = options[:reload]) || !loaded?
+              merge_report(shutdown(options), report) if do_shutdown
+              do_load_model(report)
+            else
+              self.model
+            end
       rescue Exception => ex
         #TODO Delete raise
         #raise ex
@@ -183,7 +183,7 @@ module Setup
     def deconstantize(constant_name, options={})
       report = {:destroyed => Set.new, :affected => Set.new}.merge(options)
       if constant = constant_name.constantize rescue nil
-          do_deconstantize(constant, report)
+        do_deconstantize(constant, report)
       end
       report
     end

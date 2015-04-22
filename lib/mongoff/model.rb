@@ -44,11 +44,11 @@ module Mongoff
       if schema['type'] == 'object' && schema['properties'] && property_schema = schema['properties'][property.to_s]
         property_schema = property_schema['items'] if property_schema['type'] == 'array' && property_schema['items']
         model =
-          if (ref = property_schema['$ref']) && property_dt = data_type.find_data_type(ref)
-            Model.new(property_dt, nil, self)
-          else
-            Model.new(data_type, property.camelize, self, property_schema)
-          end
+            if (ref = property_schema['$ref']) && property_dt = data_type.find_data_type(ref)
+              Model.new(property_dt, nil, self)
+            else
+              Model.new(data_type, property.camelize, self, property_schema)
+            end
       end
       model || Model.new(data_type, property.camelize, self, EMPTY_SCHEMA)
     end

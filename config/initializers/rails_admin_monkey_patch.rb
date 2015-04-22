@@ -185,11 +185,11 @@ module RailsAdmin
           if properties = schema['properties']
             properties.each do |property, property_schema|
               if field =
-                if model.property_model(property).is_a?(Mongoff::Model)
-                  rails_admin_model.field(property, :json_schema)
-                else
-                  rails_admin_model.fields(property.to_sym).first
-                end
+                  if model.property_model(property).is_a?(Mongoff::Model)
+                    rails_admin_model.field(property, :json_schema)
+                  else
+                    rails_admin_model.fields(property.to_sym).first
+                  end
                 property_schema = data_type.merge_schema(property_schema)
                 visible_ok = false
                 {label: 'title', help: 'description', visible: 'visible'}.each do |option, key|
@@ -310,14 +310,14 @@ module RailsAdmin
         return scope unless options[:sort]
 
         case options[:sort]
-        when String
-          collection_name = (sort = options[:sort])[0..i = sort.rindex('.') - 1]
-          field_name = sort.from(i + 2)
-          if collection_name && collection_name != table_name
-            fail('sorting by associated model column is not supported in Non-Relational databases')
-          end
-        when Symbol
-          field_name = options[:sort].to_s
+          when String
+            collection_name = (sort = options[:sort])[0..i = sort.rindex('.') - 1]
+            field_name = sort.from(i + 2)
+            if collection_name && collection_name != table_name
+              fail('sorting by associated model column is not supported in Non-Relational databases')
+            end
+          when Symbol
+            field_name = options[:sort].to_s
         end
         if options[:sort_reverse]
           scope.asc field_name

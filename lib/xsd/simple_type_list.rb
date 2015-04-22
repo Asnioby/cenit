@@ -16,22 +16,22 @@ module Xsd
 
     def to_json_schema
       items_schema =
-        if item_type.nil?
-          {
-            'anyOf' => [
-              {'type' => 'string'},
-              {'type' => 'integer'},
-              {'type' => 'number'},
-              {'type' => 'boolean'}
-            ]
-          }
-        else
-          item_type.to_json_schema
-        end
+          if item_type.nil?
+            {
+                'anyOf' => [
+                    {'type' => 'string'},
+                    {'type' => 'integer'},
+                    {'type' => 'number'},
+                    {'type' => 'boolean'}
+                ]
+            }
+          else
+            item_type.to_json_schema
+          end
       {
-        'type' => 'array',
-        'items' => items_schema,
-        'xml' => {'simple_type' => true} #XML formaters should format the array into a xml simple type list format
+          'type' => 'array',
+          'items' => items_schema,
+          'xml' => {'simple_type' => true} #XML formaters should format the array into a xml simple type list format
       }
     end
   end

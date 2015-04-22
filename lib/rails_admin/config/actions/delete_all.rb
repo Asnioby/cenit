@@ -25,11 +25,11 @@ module RailsAdmin
 
             if model = @abstract_model.model_name.constantize rescue nil
               @model_label_plural =
-                if data_type = model.try(:data_type)
-                  data_type.title.downcase.pluralize
-                else
-                  @abstract_model.pretty_name.downcase.pluralize
-                end
+                  if data_type = model.try(:data_type)
+                    data_type.title.downcase.pluralize
+                  else
+                    @abstract_model.pretty_name.downcase.pluralize
+                  end
               @total = model.all.size
               if params[:delete]
                 if (model.singleton_method(:before_destroy) rescue nil)

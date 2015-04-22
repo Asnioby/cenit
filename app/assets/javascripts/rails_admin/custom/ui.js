@@ -4,8 +4,8 @@
 //= require rails_admin/test-flow-transformation
 //= require rails_admin/highlight_js/highlight.pack.js
 
-$(document).on('rails_admin.dom_ready', function() {
-  $('pre code').each(function(i, block) {
-     hljs.highlightBlock(block);
-   });
+$(document).on('rails_admin.dom_ready', function () {
+    $('pre code').each(function (i, block) {
+        hljs.highlightBlock(block);
+    });
 });

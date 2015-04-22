@@ -25,6 +25,7 @@ module Xsd
     def name_prefix
       parent ? parent.name_prefix : ''
     end
+
     def included?(qualified_name)
       parent ? parent.included?(qualified_name) : false
     end

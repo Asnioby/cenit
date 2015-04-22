@@ -5,7 +5,9 @@ module Setup
       class << self
 
         def metaclass
-          class << self; self; end
+          class << self;
+            self;
+          end
         end
 
         def run(options = {})
