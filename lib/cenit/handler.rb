@@ -20,7 +20,7 @@ module Cenit
       return {} unless data_type = Setup::DataType.find_by(name: model.camelize)
       root = model.pluralize
       count = 0
-      if self.payload[root].blank? == false and self.payload[root].is_a?(Array)
+      if self.payload[root].blank? == false and self.payload[root.underscore].is_a?(Array)
         self.payload[root].each do |obj|
           next if obj[:id].blank?
           model = data_type.new_from_json(obj.to_json)

@@ -11,6 +11,10 @@ module Setup
       @title ||= model.to_s.to_title
     end
 
+    def name
+      @name ||= model.model_name.singular
+    end
+
     def initialize(model)
       @model = model
     end

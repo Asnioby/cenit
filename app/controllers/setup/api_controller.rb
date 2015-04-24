@@ -1,34 +1,34 @@
 module Setup
   class ApiController < ApplicationController
     include Cenit::StrongParameters
-    
+
     respond_to :json
     before_action :authorize
-    
+
     before_action :find_model
     before_action :find_item, only: [:show, :update, :destroy]
 
     def index
       @items = get_model.all
-      render json: @items.map { |item| { @model => attributes(item) } }
+      render json: @items.map { |item| {@model => attributes(item)} }
     end
 
     def show
-      render json: { @model => attributes(@item) }
+      render json: {@model => attributes(@item)}
     end
 
     def create
-      @item = get_model.new(permited_attributes)
+      @item = get_model.data_type.new_from_json(@item)
       if @item.save
-        render json: { @model => attributes(@item) }
+        render json: {@model => attributes(@item)}
       else
         render json: @item.errors, status: :unprocessable_entity
       end
     end
 
     def update
-      if @item.update_attributes(permited_attributes)
-        render json: { @model => attributes(@item) }
+      if @item = get_model.data_type.new_from_json(@item)
+        render json: {@model => attributes(@item)}
       else
         render json: item.errors, status: :unprocessable_entity
       end
@@ -40,7 +40,7 @@ module Setup
     end
 
     protected
-    
+
     def authorize
       # we are using token authentication via header.
       key = request.headers['X-User-Access-Key']
@@ -52,7 +52,7 @@ module Setup
         return true
       end
 
-      render json: 'Unauthorized!', status: :unprocessable_entity 
+      render json: 'Unauthorized!', status: :unprocessable_entity
       return false
     end
 
@@ -61,7 +61,7 @@ module Setup
       parameters = ActionController::Parameters.new(p[@model])
       parameters.permit(send "permitted_#{@model}_attributes")
     end
-    
+
     def find_model
       @model = params[:model]
     end
@@ -72,15 +72,15 @@ module Setup
         render json: {status: "item not found"}
       end
     end
-    
+
     def get_model
       "Setup::#{@model.camelize}".constantize
-    end  
+    end
 
     def attributes(item)
       id = item.attributes.delete('_id').to_s
       item.attributes.merge('id' => id)
-    end  
+    end
 
   end
 end
