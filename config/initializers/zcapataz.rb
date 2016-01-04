@@ -9,17 +9,17 @@ Capataz.config do
   allowed_constants Psych, JSON, URI, File, Array, Hash, Nokogiri, Nokogiri::XML, Time, Base64, Digest, Digest::MD5,
                     SecureRandom, Setup, Setup::DataType, Setup::Library, Setup::Schema, Setup::SchemaDataType, OpenSSL, OpenSSL::PKey, OpenSSL::PKey::RSA,
                     OpenSSL::Digest, OpenSSL::HMAC, Setup::Task, Setup::Task::RUNNING_STATUS, Setup::Task::NOT_RUNNING_STATUS, Setup::Webhook,
-                    Xmldsig, Xmldsig::SignedDocument,Zip, Zip::OutputStream,  Zip::InputStream, StringIO
+                    Xmldsig, Xmldsig::SignedDocument,Zip, Zip::OutputStream, Zip::InputStream, StringIO
 
   allow_on JSON, [:parse, :pretty_generate]
 
-  allow_on Psych, [:load, :add_domain_type]
+  allow_on Psych,[:load, :add_domain_type]
 
   allow_on YAML, [:load, :add_domain_type]
 
-  # allow_on Zip::OutputStream, [:write_buffer, :put_next_entry, :write]
-  #
-  # allow_on Zip::InputStream, [:open, :open_buffer, :get_next_entry, :get_input_stream, :read]
+  allow_on Zip::OutputStream, [:write_buffer, :put_next_entry, :write]
+
+  allow_on Zip::InputStream, [:open, :open_buffer, :get_next_entry, :get_input_stream, :read]
 
   allow_on URI, [:decode, :encode]
 
@@ -29,9 +29,9 @@ Capataz.config do
 
   allow_on RamlParser::Parser, [:parse_hash, :parse_doc]
 
-  # allow_on Xmldsig::SignedDocument, [:new_document, :sign]
-  #
-  # allow_on OpenSSL::PKey::RSA, [:new_rsa]
+  allow_on Xmldsig::SignedDocument, [:new_document, :sign]
+
+  allow_on OpenSSL::PKey::RSA, [:new_rsa]
 
   allow_for ActionView::Base, [:escape_javascript, :j]
 
@@ -62,8 +62,6 @@ Capataz.config do
                                end
                              end + [:create_from]
                            end + [:name, :slug, :to_json, :to_edi, :to_hash, :to_xml, :to_params, :records_model, :library, :library_id]).flatten
-
-  allow_for [Class], [:where, :all, :new_sign, :digest, :now, :data_type]
 
   deny_for [Setup::DynamicRecord, Mongoff::Record], ->(instance, method) do
     return false if [:id, :to_json, :to_edi, :to_hash, :to_xml, :to_xml_element, :to_params, :[], :[]=, :save, :all, :where, :orm_model, :nil?, :==, :errors].include?(method)
