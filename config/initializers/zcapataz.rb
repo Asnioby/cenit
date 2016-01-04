@@ -8,18 +8,14 @@ Capataz.config do
 
   allowed_constants Psych, JSON, URI, File, Array, Hash, Nokogiri, Nokogiri::XML, Time, Base64, Digest, Digest::MD5,
                     SecureRandom, Setup, Setup::DataType, Setup::Library, Setup::Schema, Setup::SchemaDataType, OpenSSL, OpenSSL::PKey, OpenSSL::PKey::RSA,
-                    OpenSSL::Digest, OpenSSL::HMAC, Setup::Task, Setup::Task::RUNNING_STATUS, Setup::Task::NOT_RUNNING_STATUS, Setup::Webhook,
+                    OpenSSL::Digest, OpenSSL::HMAC, Setup::Task, Setup::Task::RUNNING_STATUS, Setup::Task::NOT_RUNNING_STATUS, Setup::Webhook, Setup::Algorithm,
                     Xmldsig, Xmldsig::SignedDocument,Zip, Zip::OutputStream, Zip::InputStream, StringIO
 
   allow_on JSON, [:parse, :pretty_generate]
 
-  allow_on Psych,[:load, :add_domain_type]
+  allow_on Psych, [:load, :add_domain_type]
 
   allow_on YAML, [:load, :add_domain_type]
-
-  allow_on Zip::OutputStream, [:write_buffer, :put_next_entry, :write]
-
-  allow_on Zip::InputStream, [:open, :open_buffer, :get_next_entry, :get_input_stream, :read]
 
   allow_on URI, [:decode, :encode]
 
@@ -47,7 +43,7 @@ Capataz.config do
 
   allow_for [Mongoid::Criteria, Mongoff::Criteria], Enumerable.instance_methods(false) + Origin::Queryable.instance_methods(false) + [:each, :present?, :blank?]
 
-  allow_for Setup::Task, [:status, :scheduler, :state, :resume_in, :run_again, :progress, :progress=, :update, :destroy, :notifications]
+  allow_for Setup::Task, [:status, :scheduler, :state, :resume_in, :run_again, :progress, :progress=, :update, :destroy, :notifications, :notify]
 
   allow_for Setup::Scheduler, [:activated?]
 
