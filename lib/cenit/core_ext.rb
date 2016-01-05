@@ -58,3 +58,27 @@ end
       end
     end
   end
+
+module Nokogiri
+  module XML
+    class Builder
+      class << self
+        def new_builder(*args)
+          args = args.collect { |a| a.capataz_proxy? ? a.capataz_slave : a }
+          new(*args)
+        end
+
+        def response_to?(*args)
+          true
+        end
+      end
+      class NodeBuilder
+        class << self
+          def response_to?(*args)
+            true
+          end
+        end
+      end
+    end
+  end
+end
